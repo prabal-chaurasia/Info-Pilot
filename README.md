@@ -1,14 +1,14 @@
 # 🤖 Info Pilot — Multi-Tool AI Agent
 
-Info Pilot is a Streamlit app powered by **LangGraph** that reads your query, decides which tool fits best, and routes it there automatically. Ask it for live web info, math, summaries, or general knowledge.
+Info Pilot is a Streamlit app built with **LangGraph**. It takes a query, uses an LLM to decide which tool fits best, and routes the query to that tool automatically.
 
 ## ✨ Features
 
-- **Smart routing**: an LLM-based decision node picks the right tool for each query
-- **Web search**: real-time answers via the Tavily API, cleaned into a readable response (with a special format for weather queries)
+- **Smart routing**: a decision node asks the LLM to choose one of four tools: `search`, `calculator`, `summarizer`, or `answer`
+- **Web search**: fetches the top 3 results from the Tavily API and turns them into a clean, readable answer; weather queries are formatted as Location, Temperature, Condition, Humidity and Wind
 - **Calculator**: evaluates math expressions
-- **Summarizer**: condenses pasted text into 3 concise lines
-- **Direct answer**: general-knowledge questions answered by the LLM
+- **Summarizer**: summarizes the given text in 3 concise lines
+- **Direct answer**: general-knowledge questions answered directly by the LLM
 
 ## 🧠 How It Works
 
@@ -22,18 +22,19 @@ START ──► decide ──► calculator ─────────┼──
               └──────────► answer ───────┘
 ```
 
-1. The user enters a query in the Streamlit UI.
-2. The `decide` node asks the LLM to choose: `search`, `calculator`, `summarizer`, or `answer`.
-3. A conditional edge routes the state to the chosen node.
-4. The node produces `final_result`, which is displayed in the app.
+1. The user enters a query in the Streamlit UI and clicks **Run Agent**.
+2. The `decide` node sends the query to the LLM, which picks a tool.
+3. A conditional edge routes the state to the chosen node (anything unrecognized falls back to `answer`).
+4. The node writes its output to `final_result`, which is shown as the final answer.
 
 ## 🛠️ Tech Stack
 
 - Python
-- [LangGraph](https://github.com/langchain-ai/langgraph) and [LangChain](https://www.langchain.com/)
+- LangGraph and LangChain (`langchain-openai`)
 - OpenAI (`gpt-4o-mini`)
-- [Tavily](https://tavily.com/) search API
+- Tavily (`tavily-python`) for web search
 - Streamlit
+- python-dotenv
 
 ## 🚀 Getting Started
 
@@ -62,12 +63,10 @@ pip install -r requirements.txt
 
 ### 4. Set your API keys
 
-Get your keys here:
+The app reads two keys from environment variables:
 
-- OpenAI: https://platform.openai.com/api-keys
-- Tavily: https://app.tavily.com/
-
-Then set them as environment variables.
+- `OPENAI_API_KEY`: https://platform.openai.com/api-keys
+- `TAVILY_API_KEY`: https://app.tavily.com/
 
 **Windows (PowerShell):**
 ```powershell
@@ -84,7 +83,7 @@ export TAVILY_API_KEY="your_tavily_api_key"
 ### 5. Run the app
 
 ```bash
-streamlit run App.py
+streamlit run app.py
 ```
 
 ## 💡 Example Queries
@@ -106,12 +105,6 @@ Info-Pilot/
 ├── .gitignore
 └── README.md
 ```
-
-## 🔮 Future Improvements
-
-- Conversation memory across queries
-- Source links shown alongside search results
-- More tools (file upload, unit conversion, code execution)
 
 ## 👤 Author
 
