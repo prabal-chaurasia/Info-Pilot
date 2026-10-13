@@ -6,7 +6,7 @@ Info Pilot is a Streamlit app powered by **LangGraph** that reads your query, de
 
 - **Smart routing**: an LLM-based decision node picks the right tool for each query
 - **Web search**: real-time answers via the Tavily API, cleaned into a readable response (with a special format for weather queries)
-- **Calculator**: safe math evaluation (no `eval`)
+- **Calculator**: evaluates math expressions
 - **Summarizer**: condenses pasted text into 3 concise lines
 - **Direct answer**: general-knowledge questions answered by the LLM
 
@@ -106,10 +106,6 @@ Info-Pilot/
 ├── .gitignore
 └── README.md
 ```
-
-## ⚠️ Notes
-
-- The calculator accepts numeric expressions only (`+ - * / // % **`). Text-form math like "twenty plus five" is not supported.
 
 ## 🔮 Future Improvements
 
