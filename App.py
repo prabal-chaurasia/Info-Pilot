@@ -50,6 +50,7 @@ def search_tool(state):
         }
 
 def calculator_tool(state):
+    print("Running the calculator...")
     try:
         result = eval(state["query"])
         return {
@@ -57,12 +58,13 @@ def calculator_tool(state):
         }
     except:
         return {
-            "final_result": "Invalid Calculation"
+            "final_result": "Invalid expression or code"
         }
 
 def summarize_tool(state):
+    print("Running the summarizer...")
     prompt = f"""
-        Summarize this in 3 concise lines:
+        Summarize the following in 3 concise lines:
         {state['query']}
     """
     response = llm.invoke(prompt)
@@ -71,6 +73,7 @@ def summarize_tool(state):
     }
 
 def direct_answer(state):
+    print("Running the direct answer...")
     response = llm.invoke(state["query"])
     return {
         "final_result": response.content
@@ -86,7 +89,6 @@ def decision_tool(state):
         - "summarizer" ---> summarizing text
         - "answer" ---> general knowledge
         Return ONLY one word.
-        Also if I give you the calculation in the textual formal then calculate it and then give me the result in one word.
     """
     response = llm.invoke(prompt)
     str = response.content.strip().lower()
@@ -139,7 +141,7 @@ graph = builder.compile()
 
 st.set_page_config(page_title="Info-Pilot", layout="centered")
 
-st.title("🤖 Info Pilot (Multi-Tool Web Search)")
+st.title("🤖 Info Pilot (A Smart AI Agent)")
 st.write("Ask anything : math, summaries, or real-time info 🌏")
 
 query = st.text_area("Enter your query : ")
